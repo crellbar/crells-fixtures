@@ -1,0 +1,20 @@
+{
+    "name": "crellbar/crells-fixtures",
+    "description": "Agnostic fixture library",
+    "type": "library",
+    "license": "Private",
+    "authors": [
+        {
+            "name": "Paul Crellin",
+            "email": "crellbar+fixtures@crellbar.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "require": {},
+    "require-dev": {
+        "phpspec/phpspec": "^5.1"
+    }
+}
