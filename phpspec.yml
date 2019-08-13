@@ -2,3 +2,5 @@ suites:
     acme_suite:
         namespace: Crellbar\CrellsFixtures
         psr4_prefix: Crellbar\CrellsFixtures
+
+formatter.name: pretty
