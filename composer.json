@@ -13,6 +13,9 @@
     "config": {
         "bin-dir": "bin"
     },
+    "autoload": {
+        "psr-4": { "Crellbar\\CrellsFixtures\\": ["src/"] }
+    },
     "require": {},
     "require-dev": {
         "phpspec/phpspec": "^5.1"
