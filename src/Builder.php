@@ -6,12 +6,24 @@ use Crellbar\CrellsFixtures\Exception\NonScalarTypeException;
 
 class Builder
 {
-    public function withData($data)
+    public function __construct(ModificationQueue $modificationQueue)
+    {
+        $this->modificationQueue = $modificationQueue;
+    }
+
+    public function withData($data): void
     {
         array_walk($data, function ($datum) {
-            if (($datum instanceof self) === false && $datum !== null && is_scalar($datum) === false) {
+            if ($datum !== null && is_scalar($datum) === false) {
                 throw new NonScalarTypeException('withData only accepts scalars in the data array');
             }
         });
+
+        $this->modificationQueue->push(new WithDataCommand($data));
+    }
+
+    public function flush(): void
+    {
+        $this->modificationQueue->processAll();
     }
 }
