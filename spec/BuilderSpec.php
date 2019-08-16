@@ -59,7 +59,7 @@ class BuilderSpec extends ObjectBehavior
         $this->withData([
             'some_string' => 'some value'
         ]);
-        $modificationQueue->push(Argument::type(WithDataCommand::class))->shouldHaveBeenCalled();
+        $modificationQueue->enqueue(Argument::type(WithDataCommand::class))->shouldHaveBeenCalled();
     }
 
     function it_should_process_the_queue_on_flush(ModificationQueue $modificationQueue)
@@ -67,5 +67,10 @@ class BuilderSpec extends ObjectBehavior
         $this->beConstructedWith($modificationQueue);
         $this->flush();
         $modificationQueue->processAll()->shouldHaveBeenCalled();
+    }
+
+    function it_should_persist_the_processed_object_graph_node()
+    {
+
     }
 }

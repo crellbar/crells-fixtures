@@ -6,9 +6,13 @@ use Crellbar\CrellsFixtures\Exception\NonScalarTypeException;
 
 class Builder
 {
+    private $modificationQueue;
+    private $objectGraphNode;
+
     public function __construct(ModificationQueue $modificationQueue)
     {
         $this->modificationQueue = $modificationQueue;
+        $this->objectGraphNode = new ObjectGraphNode();
     }
 
     public function withData($data): void
@@ -19,7 +23,8 @@ class Builder
             }
         });
 
-        $this->modificationQueue->push(new WithDataCommand($data));
+
+        $this->modificationQueue->enqueue(new WithDataCommand($data, $this->objectGraphNode));
     }
 
     public function flush(): void
