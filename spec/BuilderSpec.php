@@ -3,6 +3,7 @@
 namespace spec\Crellbar\CrellsFixtures;
 
 use Crellbar\CrellsFixtures\Exception\NonScalarTypeException;
+use Crellbar\CrellsFixtures\ObjectGraphNode;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Crellbar\CrellsFixtures\ModificationQueue;
@@ -11,9 +12,9 @@ use Crellbar\CrellsFixtures\WithDataCommand;
 class BuilderSpec extends ObjectBehavior
 {
 
-    function let(ModificationQueue $modificationQueue)
+    function let(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
     {
-        $this->beConstructedWith($modificationQueue);
+        $this->beConstructedWith($modificationQueue, $objectGraphNode);
     }
 
     function it_should_accept_scalar_data_fields()
@@ -52,25 +53,29 @@ class BuilderSpec extends ObjectBehavior
         fclose($resource);
     }
 
-    // TODO: Consider alternate to cmd queue when sober - could also consider how the command is created - use creational pattern here? overkill for now?
-    function it_should_push_the_data_to_the_modification_queue(ModificationQueue $modificationQueue)
+    function it_should_push_the_data_to_the_modification_queue(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
     {
-        $this->beConstructedWith($modificationQueue);
+        $this->beConstructedWith($modificationQueue, $objectGraphNode);
         $this->withData([
             'some_string' => 'some value'
         ]);
         $modificationQueue->enqueue(Argument::type(WithDataCommand::class))->shouldHaveBeenCalled();
     }
 
-    function it_should_process_the_queue_on_flush(ModificationQueue $modificationQueue)
+    function it_should_process_the_queue_on_flush(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
     {
-        $this->beConstructedWith($modificationQueue);
+        $this->beConstructedWith($modificationQueue, $objectGraphNode);
         $this->flush();
         $modificationQueue->processAll()->shouldHaveBeenCalled();
     }
 
-    function it_should_persist_the_processed_object_graph_node()
+    // TODO: This relies on commands making changes to object graph node and then on this calling write at the appropriate time
+    // which is shit, I think it _may_ be better for commands to take ObjectGraphNode and then to return a new / modified version
+    // that would then mean the the object graph nodes are immutable
+    function it_should_persist_the_processed_object_graph_node(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
     {
-
+        $this->beConstructedWith($modificationQueue, $objectGraphNode);
+        $this->flush();
+        $objectGraphNode->write()->shouldHaveBeenCalled();
     }
 }

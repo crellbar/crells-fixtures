@@ -6,8 +6,13 @@ class ObjectGraphNode implements \ArrayAccess
 {
     private $data = [];
 
-    public function __construct()
+    private $dataType;
+    private $store;
+
+    public function __construct(string $dataType, DataStore $store)
     {
+        $this->store = $store;
+        $this->dataType = $dataType;
     }
 
     public function offsetExists($offset): bool
@@ -32,6 +37,6 @@ class ObjectGraphNode implements \ArrayAccess
 
     public function write(): void
     {
-//        $this->persistence->store('bucket/table/etc', $this->data);
+        $this->store->store($this->dataType, $this->data);
     }
 }

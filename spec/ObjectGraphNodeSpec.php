@@ -4,9 +4,15 @@ namespace spec\Crellbar\CrellsFixtures;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Crellbar\CrellsFixtures\DataStore;
 
 class ObjectGraphNodeSpec extends ObjectBehavior
 {
+    function let(DataStore $dataStore)
+    {
+        $this->beConstructedWith('bucket', $dataStore);
+    }
+
     function it_allows_array_access()
     {
         $this->beAnInstanceOf(\ArrayAccess::class);
@@ -43,8 +49,17 @@ class ObjectGraphNodeSpec extends ObjectBehavior
         $this->shouldThrow($expectedException)->duringOffsetUnset('other');
     }
 
-    function it_should_send_data_to_persistence()
+    function it_should_send_data_to_persistence(DataStore $dataStore)
     {
+        $this->beConstructedWith('bucket_table_etc', $dataStore);
 
+        $this['foo'] = 'bar';
+        $this['raz'] = 'van';
+        $this->write();
+
+        $dataStore->store('bucket_table_etc', [
+            'foo' => 'bar',
+            'raz' => 'van',
+        ])->shouldBeCalled();
     }
 }

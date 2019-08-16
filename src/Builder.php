@@ -9,10 +9,10 @@ class Builder
     private $modificationQueue;
     private $objectGraphNode;
 
-    public function __construct(ModificationQueue $modificationQueue)
+    public function __construct(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
     {
         $this->modificationQueue = $modificationQueue;
-        $this->objectGraphNode = new ObjectGraphNode();
+        $this->objectGraphNode = $objectGraphNode;
     }
 
     public function withData($data): void
@@ -23,12 +23,12 @@ class Builder
             }
         });
 
-
         $this->modificationQueue->enqueue(new WithDataCommand($data, $this->objectGraphNode));
     }
 
     public function flush(): void
     {
         $this->modificationQueue->processAll();
+        $this->objectGraphNode->write();
     }
 }
