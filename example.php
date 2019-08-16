@@ -1,12 +1,20 @@
 <?php
 
-$builder = new \Crellbar\CrellsFixtures\Builder(
-    new \Crellbar\CrellsFixtures\SimpleModificationQueue(),
-    new \Crellbar\CrellsFixtures\ObjectGraphNode(
-        'user',
-        new \Crellbar\CrellsFixtures\AdaptorExample\ArrayStore()
+require_once 'vendor/autoload.php';
+
+use Crellbar\CrellsFixtures as CF;
+
+$builder = new CF\FluidBuilder(
+    new CF\Builder(
+        new CF\SimpleModificationQueue(),
+        new CF\ObjectGraphNode(
+            'user',
+            new CF\AdaptorExample\EchoingStore()
+        )
     )
 );
 
-$builder->withData(['username' => 'razzie']);
-$builder->withData(['email' => 'razzie@example.com', 'nationality' => 'Russian']);
+$builder
+    ->withData(['username' => 'razzie'])
+    ->withData(['email' => 'razzie@example.com', 'nationality' => 'Russian'])
+    ->flush();

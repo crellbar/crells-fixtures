@@ -4,11 +4,11 @@ namespace Crellbar\CrellsFixtures\AdaptorExample;
 
 use Crellbar\CrellsFixtures\DataStore;
 
-class ArrayStore implements DataStore
+class EchoingStore implements DataStore
 {
     public function store(string $dataType, $data): void
     {
-        // TODO: Implement store() method.
+        echo 'Wrote to ' . $dataType . ' with ' . var_export($data, true);
     }
 
 }
