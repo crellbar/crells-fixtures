@@ -4,5 +4,5 @@ namespace Crellbar\CrellsFixtures;
 
 interface Command
 {
-    public function exec();
+    public function exec(): void;
 }

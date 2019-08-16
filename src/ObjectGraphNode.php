@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Crellbar\CrellsFixtures;
 
@@ -10,7 +10,7 @@ class ObjectGraphNode implements \ArrayAccess
     {
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->data);
     }
@@ -20,17 +20,17 @@ class ObjectGraphNode implements \ArrayAccess
         return $this->data[$offset] ?? null;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->data[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new \BadMethodCallException("unsetting of object graph node data is not supported");
     }
 
-    public function write()
+    public function write(): void
     {
 //        $this->persistence->store('bucket/table/etc', $this->data);
     }

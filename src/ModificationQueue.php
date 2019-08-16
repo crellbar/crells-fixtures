@@ -4,7 +4,7 @@ namespace Crellbar\CrellsFixtures;
 
 interface ModificationQueue
 {
-    public function enqueue($command);
+    public function enqueue(Command $command): void;
 
-    public function processAll();
+    public function processAll(): void;
 }

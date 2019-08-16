@@ -6,6 +6,7 @@ class WithDataCommand implements Command
 {
     /** @var array */
     private $data;
+
     /** @var ObjectGraphNode */
     private $node;
 
@@ -15,7 +16,7 @@ class WithDataCommand implements Command
         $this->node = $node;
     }
 
-    public function exec()
+    public function exec(): void
     {
         foreach ($this->data as $key => $datum) {
             $this->node[$key] = $datum;

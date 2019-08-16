@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Crellbar\CrellsFixtures;
 
@@ -11,12 +11,12 @@ class SimpleModificationQueue implements ModificationQueue
         $this->fifoQueue = new \SplQueue();
     }
 
-    public function enqueue($command)
+    public function enqueue(Command $command): void
     {
         $this->fifoQueue->enqueue($command);
     }
 
-    public function processAll()
+    public function processAll(): void
     {
         while (!$this->fifoQueue->isEmpty()) {
             $command = $this->fifoQueue->dequeue();
