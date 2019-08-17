@@ -2,27 +2,27 @@
 
 namespace spec\Crellbar\CrellsFixtures;
 
-use Crellbar\CrellsFixtures\Command;
+use Crellbar\CrellsFixtures\DataCommand;
 use Crellbar\CrellsFixtures\ObjectGraphNode;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class WithDataCommandSpec extends ObjectBehavior
 {
-    public function let(ObjectGraphNode $objectGraphNode)
+    public function let()
     {
-        $this->beConstructedWith([], $objectGraphNode);
+        $this->beConstructedWith([]);
     }
 
     function it_is_a_command()
     {
-        $this->shouldHaveType(Command::class);
+        $this->shouldHaveType(DataCommand::class);
     }
 
     public function it_should_write_datum_to_object_graph_node(ObjectGraphNode $objectGraphNode)
     {
-        $this->beConstructedWith(['some_string' => 'some_value'], $objectGraphNode);
-        $this->exec();
+        $this->beConstructedWith(['some_string' => 'some_value']);
+        $this->exec($objectGraphNode);
         $objectGraphNode->offsetSet('some_string', 'some_value')->shouldHaveBeenCalled();
     }
 
@@ -31,8 +31,8 @@ class WithDataCommandSpec extends ObjectBehavior
         $this->beConstructedWith([
             'some_string' => 'some_value',
             'some_int' => 32
-        ], $objectGraphNode);
-        $this->exec();
+        ]);
+        $this->exec($objectGraphNode);
         $objectGraphNode->offsetSet('some_string', 'some_value')->shouldHaveBeenCalled();
         $objectGraphNode->offsetSet('some_int', 32)->shouldHaveBeenCalled();
     }

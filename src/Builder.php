@@ -23,12 +23,12 @@ class Builder
             }
         });
 
-        $this->modificationQueue->enqueue(new WithDataCommand($data, $this->objectGraphNode));
+        $this->modificationQueue->enqueue(new WithDataCommand($data));
     }
 
     public function flush(): void
     {
-        $this->modificationQueue->processAll();
+        $this->modificationQueue->processAll($this->objectGraphNode);
         $this->objectGraphNode->write();
     }
 }
