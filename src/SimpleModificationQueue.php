@@ -11,16 +11,16 @@ class SimpleModificationQueue implements ModificationQueue
         $this->fifoQueue = new \SplQueue();
     }
 
-    public function enqueue(Command $command): void
+    public function enqueue(DataCommand $command): void
     {
         $this->fifoQueue->enqueue($command);
     }
 
-    public function processAll(): void
+    public function processAll(ObjectGraphNode $objectGraphNode): void
     {
         while (!$this->fifoQueue->isEmpty()) {
             $command = $this->fifoQueue->dequeue();
-            $command->exec();
+            $command->exec($objectGraphNode);
         }
     }
 }

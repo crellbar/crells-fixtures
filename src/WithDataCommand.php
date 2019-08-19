@@ -2,24 +2,20 @@
 
 namespace Crellbar\CrellsFixtures;
 
-class WithDataCommand implements Command
+class WithDataCommand implements DataCommand
 {
     /** @var array */
     private $data;
 
-    /** @var ObjectGraphNode */
-    private $node;
-
-    public function __construct(array $data, ObjectGraphNode $node)
+    public function __construct(array $data)
     {
         $this->data = $data;
-        $this->node = $node;
     }
 
-    public function exec(): void
+    public function exec(ObjectGraphNode $objectGraphNode): void
     {
         foreach ($this->data as $key => $datum) {
-            $this->node[$key] = $datum;
+            $objectGraphNode[$key] = $datum;
         }
     }
 }

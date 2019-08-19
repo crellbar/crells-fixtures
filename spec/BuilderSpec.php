@@ -66,7 +66,7 @@ class BuilderSpec extends ObjectBehavior
     {
         $this->beConstructedWith($modificationQueue, $objectGraphNode);
         $this->flush();
-        $modificationQueue->processAll()->shouldHaveBeenCalled();
+        $modificationQueue->processAll($objectGraphNode)->shouldHaveBeenCalled();
     }
 
     // TODO: This relies on commands making changes to object graph node and then on this calling write at the appropriate time
