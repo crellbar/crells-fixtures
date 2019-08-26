@@ -4,6 +4,20 @@ require_once 'vendor/autoload.php';
 
 use Crellbar\CrellsFixtures as CF;
 
+/** New structure around creation, allows different persistence to be used per entity and for the builder to apply default values
+// Possible new structure for creation that allows for defaults to be applied as configuration using existing
+// command structure (i.e. WithData) as the factory would apply the
+$builderFactory = new CF\BuilderFactory(
+    // new CF\SimpleModificationQueueFactory(), // ModificationQueueFactory interface // or not needed because we'll create from simple method within factory
+    // new CF\ObjectGraphNodeFactory( // again not needed as we'll just have a simple protected method within the factory
+        new CF\EchoingStoreProvider() // DataStoreProvider interface // e.g. impl EchoingStoreProvider would always provide eachoing store, but bespoke one that changes store based on type could work but would mean lib consumers build their own e.g. entity_typr_1 uses mysql store and entity_type_2 uses dynamodb store (would prob provide config driven impl for this)
+    // )
+);
+
+$fluidBuilderFactory = new CF\FluidBuilderFactory($builderFactory);
+$builder = $fluidBuilderFactory->builder('user');
+*/
+
 $builder = new CF\FluidBuilder(
     new CF\Builder(
         new CF\SimpleModificationQueue(),
@@ -13,6 +27,8 @@ $builder = new CF\FluidBuilder(
         )
     )
 );
+
+
 
 $scenarios = [
     1 => 'scenario1_simple_withData',
@@ -72,6 +88,29 @@ function scenario6_complex_state($builder)
         ->state('valid_utc')
         ->flush();
 }
+
+// shit's getting real at this point
+
+function scenario7_calculated_fields()
+{
+    throw new \Exception('no idea what this looks like yet');
+    // For example let's say on our model we have start and end date and then a number of days field that is the difference between them
+    // one may want to be able to set a start and end date and have that field correctly calculated so that tests always make sense
+    // without you having to be overly explicit
+
+    // More complex version of this may be when the user wants to be able to do the above OR to set the start date and the number of days and have the end date calculated both on the same configuration - could we handle stuff like that? do we need to be more prescribed
+}
+
+function scenario8_example_of_closure_table_hierarchy()
+{
+    throw new \Exception('no idea what this looks like yet');
+
+    // This is a fairly complex scenario where we are able to say give me a node at depth 5 of the hierarchy
+    // or to be able to say give me the root node with 8 children
+    // or give me the node 5 deep in the hierarchy with 3 children
+    // how do we nicely represent this with the library?
+}
+
 
 // The ones below are questionable as there is a risk they introduce too much complexity for users of the library,
 // each of the scenarios could be achieved by working on the related entities rather than allowing more in withData
