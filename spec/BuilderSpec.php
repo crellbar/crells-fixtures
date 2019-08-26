@@ -69,9 +69,6 @@ class BuilderSpec extends ObjectBehavior
         $modificationQueue->processAll($objectGraphNode)->shouldHaveBeenCalled();
     }
 
-    // TODO: This relies on commands making changes to object graph node and then on this calling write at the appropriate time
-    // which is shit, I think it _may_ be better for commands to take ObjectGraphNode and then to return a new / modified version
-    // that would then mean the the object graph nodes are immutable
     function it_should_persist_the_processed_object_graph_node(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
     {
         $this->beConstructedWith($modificationQueue, $objectGraphNode);
