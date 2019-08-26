@@ -3,30 +3,17 @@
 require_once 'vendor/autoload.php';
 
 use Crellbar\CrellsFixtures as CF;
+use Crellbar\CrellsFixtures\AdaptorExample\EchoingStoreProvider;
 
-/** New structure around creation, allows different persistence to be used per entity and for the builder to apply default values
+// New structure around creation, allows different persistence to be used per entity and for the builder to apply default values
 // Possible new structure for creation that allows for defaults to be applied as configuration using existing
 // command structure (i.e. WithData) as the factory would apply the
 $builderFactory = new CF\BuilderFactory(
-    // new CF\SimpleModificationQueueFactory(), // ModificationQueueFactory interface // or not needed because we'll create from simple method within factory
-    // new CF\ObjectGraphNodeFactory( // again not needed as we'll just have a simple protected method within the factory
-        new CF\EchoingStoreProvider() // DataStoreProvider interface // e.g. impl EchoingStoreProvider would always provide eachoing store, but bespoke one that changes store based on type could work but would mean lib consumers build their own e.g. entity_typr_1 uses mysql store and entity_type_2 uses dynamodb store (would prob provide config driven impl for this)
-    // )
-);
+        new EchoingStoreProvider()
+    );
 
 $fluidBuilderFactory = new CF\FluidBuilderFactory($builderFactory);
 $builder = $fluidBuilderFactory->builder('user');
-*/
-
-$builder = new CF\FluidBuilder(
-    new CF\Builder(
-        new CF\SimpleModificationQueue(),
-        new CF\ObjectGraphNode(
-            'user',
-            new CF\AdaptorExample\EchoingStore()
-        )
-    )
-);
 
 
 

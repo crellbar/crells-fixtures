@@ -1,0 +1,21 @@
+Low level scratch (code)
+------------------------
+
+
+High level scratch (arch/feature)
+---------------------------------
+* Implement behaviour for just the withData calls against a single entity
+(Not enough time at the moment to add integration tests, in order to stay interested I've just added a few examples to drive the direction)
+* Implement some kind of integration test suite that allows writing to an in memory store (e.g. an array) or sqlite db
+    * Should this also allow querying back against it from integration test
+    * Ensure two withData calls lead to a single entity being written and overlapping properties take the latter data
+* Implement random defaults with faker
+    * Test that withdata overrides defaults
+* Allow rules against defaults e.g. incrememntal field, conditional incremental field, conditional fields, fields determined values in other fields
+
+* Allow is / with / but / withState or similar methods for applying states
+
+* Allow relating entities, using the type of the related builder we can guess which it's supposed to be if there's just one of that type - if there are multiple of the type we need to allow named relationships to be specified
+
+* Do a few examples, a simple user example, a more complex football team example (with unique player numbers per team through default data rules), a hierarchy example where a whole tree can be generated from a single node
+
