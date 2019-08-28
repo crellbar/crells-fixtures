@@ -5,11 +5,20 @@ require_once 'vendor/autoload.php';
 use Crellbar\CrellsFixtures as CF;
 use Crellbar\CrellsFixtures\AdaptorExample\EchoingStoreProvider;
 
+$faker = \Faker\Factory::create();
+
 // New structure around creation, allows different persistence to be used per entity and for the builder to apply default values
 // Possible new structure for creation that allows for defaults to be applied as configuration using existing
 // command structure (i.e. WithData) as the factory would apply the
 $builderFactory = new CF\BuilderFactory(
-        new EchoingStoreProvider()
+        new EchoingStoreProvider(),
+        new CF\AdaptorExample\ArrayDrivenBuilderDefaults([
+            'user' => [
+                'username' => $faker->userName,
+                'email' => $faker->email,
+                'nationality' => $faker->randomElement(['Russian', 'British', 'Aussie']),
+            ]
+        ])
     );
 
 $fluidBuilderFactory = new CF\FluidBuilderFactory($builderFactory);

@@ -62,4 +62,11 @@ class ObjectGraphNodeSpec extends ObjectBehavior
             'raz' => 'van',
         ])->shouldBeCalled();
     }
+
+    // TODO: Defintely review, this is looking sooo dodgy
+    function it_should_reveal_the_type_of_the_data_type(DataStore $dataStore)
+    {
+        $this->beConstructedWith('sometype', $dataStore);
+        $this->entityType()->shouldReturn('sometype');
+    }
 }

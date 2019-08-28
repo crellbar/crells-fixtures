@@ -39,4 +39,10 @@ class ObjectGraphNode implements \ArrayAccess
     {
         $this->store->store($this->dataType, $this->data);
     }
+
+    // TODO: Just no, get rid!
+    public function entityType(): string
+    {
+        return $this->dataType;
+    }
 }

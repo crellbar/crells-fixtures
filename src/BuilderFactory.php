@@ -5,18 +5,25 @@ namespace Crellbar\CrellsFixtures;
 class BuilderFactory
 {
     private $dataStoreProvider;
+    private $defaults;
 
-    public function __construct(DataStoreProvider $dataStoreProvider)
+    public function __construct(DataStoreProvider $dataStoreProvider, BuilderDefaults $defaults)
     {
         $this->dataStoreProvider = $dataStoreProvider;
+        $this->defaults = $defaults;
     }
 
     public function builder(string $entityType)
     {
-        return new Builder(
+        $builder = new Builder(
             $this->createModificationQueue($entityType),
             $this->createObjectGraphNode($entityType)
         );
+
+        // TODO: Review this is begining to feel a bit cack in example BuilderDefaults impl
+        $this->defaults->apply($builder);
+
+        return $builder;
     }
 
     protected function createModificationQueue(string $entityType): ModificationQueue

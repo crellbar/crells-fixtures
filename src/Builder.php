@@ -31,4 +31,10 @@ class Builder
         $this->modificationQueue->processAll($this->objectGraphNode);
         $this->objectGraphNode->write();
     }
+
+    // TODO: what are you doing, why are you persisting with this when you know it's nasty
+    public function entityType(): string
+    {
+        return $this->objectGraphNode->entityType();
+    }
 }
