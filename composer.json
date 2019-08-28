@@ -18,6 +18,7 @@
     },
     "require": {},
     "require-dev": {
-        "phpspec/phpspec": "^5.1"
+        "phpspec/phpspec": "^5.1",
+        "fzaninotto/faker": "^1.8"
     }
 }
