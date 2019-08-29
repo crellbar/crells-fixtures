@@ -95,4 +95,53 @@ class ObjectGraphNodeSpec extends ObjectBehavior
 
         $this->dataStore->store('bucket', ['k' => 'v', 'l' => 'm'])->shouldHaveBeenCalled();
     }
+
+    function it_should_apply_defaults_to_the_node_data()
+    {
+        $this->defaults->getDefaultsForType('bucket')->willReturn(['k' => 'v']);
+
+        $this->write();
+
+        $this['k']->shouldBe('v');
+    }
+
+    function it_should_apply_defaults_to_the_node_data_only_where_values_have_not_previouisly_been_set()
+    {
+        $this->defaults->getDefaultsForType('bucket')->willReturn(['k' => 'v', 'l' => 'w']);
+        $this['l'] = 'm';
+
+        $this->write();
+
+        $this['k']->shouldBe('v');
+        $this['l']->shouldBe('m');
+    }
+
+    function it_should_also_respect_previously_set_falsy_values_when_loading_defaults(DataStore $dataStore, DataDefaults $defaults)
+    {
+        $this->beConstructedWith('bucket', $dataStore, $defaults);
+        $this->defaults->getDefaultsForType('bucket')->willReturn([
+            'a' => 'applied',
+            'b' => 'applied',
+            'c' => 'applied',
+            'd' => 'applied',
+            'e' => 'applied',
+            'f' => 'applied',
+        ]);
+
+        $this['a'] = false;
+        $this['b'] = 0;
+        $this['c'] = "0";
+        $this['d'] = null;
+        $this['e'] = [];
+        $this['f'] = "";
+
+        $this->write();
+
+        $this['a']->shouldBe(false);
+        $this['b']->shouldBe(0);
+        $this['c']->shouldBe("0");
+        $this['d']->shouldBe(null);
+        $this['e']->shouldBe([]);
+        $this['f']->shouldBe("");
+    }
 }

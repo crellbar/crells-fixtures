@@ -39,13 +39,13 @@ class ObjectGraphNode implements \ArrayAccess
 
     public function write(): void
     {
-        $data = $this->applyDefaults();
-        $this->store->store($this->dataType, $data);
+        $this->applyDefaults();
+        $this->store->store($this->dataType, $this->data);
     }
 
     private function applyDefaults()
     {
         $availableDefaults = $this->defaults->getDefaultsForType($this->dataType);
-        return array_merge($availableDefaults, $this->data);
+        $this->data = array_merge($availableDefaults, $this->data);
     }
 }
