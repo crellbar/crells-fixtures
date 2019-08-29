@@ -75,12 +75,4 @@ class BuilderSpec extends ObjectBehavior
         $this->flush();
         $objectGraphNode->write()->shouldHaveBeenCalled();
     }
-
-    // TODO: really though, should it? shut up
-    function it_should_reveal_the_type_of_the_entity_being_built(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
-    {
-        $this->beConstructedWith($modificationQueue, $objectGraphNode);
-        $objectGraphNode->entityType()->willReturn('tippytype');
-        $this->entityType()->shouldBe('tippytype');
-    }
 }

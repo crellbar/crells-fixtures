@@ -7,7 +7,7 @@ class BuilderFactory
     private $dataStoreProvider;
     private $defaults;
 
-    public function __construct(DataStoreProvider $dataStoreProvider, BuilderDefaults $defaults)
+    public function __construct(DataStoreProvider $dataStoreProvider, DataDefaults $defaults)
     {
         $this->dataStoreProvider = $dataStoreProvider;
         $this->defaults = $defaults;
@@ -19,9 +19,6 @@ class BuilderFactory
             $this->createModificationQueue($entityType),
             $this->createObjectGraphNode($entityType)
         );
-
-        // TODO: Review this is begining to feel a bit cack in example BuilderDefaults impl
-        $this->defaults->apply($builder);
 
         return $builder;
     }
@@ -35,7 +32,8 @@ class BuilderFactory
     {
         return new ObjectGraphNode(
             $entityType,
-            $this->dataStoreProvider->provideStore($entityType)
+            $this->dataStoreProvider->provideStore($entityType),
+            $this->defaults
         );
     }
 }

@@ -8,11 +8,13 @@ class ObjectGraphNode implements \ArrayAccess
 
     private $dataType;
     private $store;
+    private $defaults;
 
-    public function __construct(string $dataType, DataStore $store)
+    public function __construct(string $dataType, DataStore $store, DataDefaults $defaults)
     {
         $this->store = $store;
         $this->dataType = $dataType;
+        $this->defaults = $defaults;
     }
 
     public function offsetExists($offset): bool
@@ -32,17 +34,18 @@ class ObjectGraphNode implements \ArrayAccess
 
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException("unsetting of object graph node data is not supported");
+        throw new \BadMethodCallException("Unsetting of object graph node data is not supported");
     }
 
     public function write(): void
     {
-        $this->store->store($this->dataType, $this->data);
+        $data = $this->applyDefaults();
+        $this->store->store($this->dataType, $data);
     }
 
-    // TODO: Just no, get rid!
-    public function entityType(): string
+    private function applyDefaults()
     {
-        return $this->dataType;
+        $availableDefaults = $this->defaults->getDefaultsForType($this->dataType);
+        return array_merge($availableDefaults, $this->data);
     }
 }

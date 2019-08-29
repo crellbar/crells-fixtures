@@ -12,7 +12,7 @@ $faker = \Faker\Factory::create();
 // command structure (i.e. WithData) as the factory would apply the
 $builderFactory = new CF\BuilderFactory(
         new EchoingStoreProvider(),
-        new CF\AdaptorExample\ArrayDrivenBuilderDefaults([
+        new CF\AdaptorExample\ArrayDrivenDataDefaults([
             'user' => [
                 'username' => $faker->userName,
                 'email' => $faker->email,
