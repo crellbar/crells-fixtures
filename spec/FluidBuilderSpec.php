@@ -23,6 +23,15 @@ class FluidBuilderSpec extends ObjectBehavior
         $builder->withData(['raz' => 'van'])->shouldHaveBeenCalled();
     }
 
+    function it_proxies_state_to_builder(Builder $builder)
+    {
+        $this->beConstructedWith($builder);
+        $this->is('state1');
+        $this->with('state2');
+        $builder->is('state1')->shouldHaveBeenCalled();
+        $builder->with('state2')->shouldHaveBeenCalled();
+    }
+
     function it_proxies_flush_to_builder(Builder $builder)
     {
         $this->beConstructedWith($builder);
@@ -32,6 +41,11 @@ class FluidBuilderSpec extends ObjectBehavior
 
     function it_should_provide_a_fluid_interface_from_all_methods()
     {
-        $this->withData(['foo' => 'bar'])->withData(['raz', 'van'])->flush()->shouldBe($this);
+        $this->withData(['foo' => 'bar'])
+            ->withData(['raz', 'van'])
+            ->is('a_state')
+            ->with('other_state')
+            ->flush()
+            ->shouldBe($this);
     }
 }

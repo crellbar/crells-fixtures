@@ -22,4 +22,16 @@ class FluidBuilder
         $this->builder->flush();
         return $this;
     }
+
+    public function is(string $state)
+    {
+        $this->builder->is($state);
+        return $this;
+    }
+
+    public function with(string $state)
+    {
+        $this->builder->with($state);
+        return $this;
+    }
 }

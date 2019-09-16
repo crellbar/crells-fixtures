@@ -10,16 +10,34 @@ $faker = \Faker\Factory::create();
 // New structure around creation, allows different persistence to be used per entity and for the builder to apply default values
 // Possible new structure for creation that allows for defaults to be applied as configuration using existing
 // command structure (i.e. WithData) as the factory would apply the
+$builderFactory = null;
+$dataDefaults = new CF\AdaptorExample\ArrayDrivenDataDefaults([
+    'user' => [
+        'timezone' => null,
+        'username' => $faker->userName,
+        'email' => $faker->email,
+        'nationality' => $faker->randomElement(['Russian', 'British', 'Aussie']),
+        'account_confirmed' => $faker->boolean,
+        'deleted' => $faker->boolean,
+    ]
+],
+    [
+//        'user' => [
+            'valid' => [
+                'account_confirmed' => true,
+                'deleted' => false,
+            ],
+            'example_domain_email' => [
+                'email' => $faker->safeEmail,
+            ],
+//        ]
+    ]
+);
 $builderFactory = new CF\BuilderFactory(
-        new EchoingStoreProvider(),
-        new CF\AdaptorExample\ArrayDrivenDataDefaults([
-            'user' => [
-                'username' => $faker->userName,
-                'email' => $faker->email,
-                'nationality' => $faker->randomElement(['Russian', 'British', 'Aussie']),
-            ]
-        ])
-    );
+    new EchoingStoreProvider(),
+    $dataDefaults,
+    $dataDefaults
+);
 
 $fluidBuilderFactory = new CF\FluidBuilderFactory($builderFactory);
 $builder = $fluidBuilderFactory->builder('user');
@@ -29,6 +47,7 @@ $builder = $fluidBuilderFactory->builder('user');
 $scenarios = [
     1 => 'scenario1_simple_withData',
     'scenario2_default_random_values',
+    'scenario3_state',
 ];
 
 $scenarioNum = (int)($argv[1] ?? 1);
@@ -58,8 +77,7 @@ function scenario3_state($builder)
 {
     $builder
         ->is('valid')
-        ->has('UTCEquivalentTimezone')
-        ->is('inactive')
+        ->with('example_domain_email')
         ->flush();
 }
 
