@@ -1,11 +1,19 @@
+Refactors
+---------
+Add feature test suite to replace/reduce examples.php (sort of module integration tests in that they'll be directly against code but as the 'stakeholder' is the user of the library it's legit to call them feature tests imo)
+Switch the AdaptorExample namespace to be TestAdaptors
+Refactor to better use namespaces within the code and put interfaces with their owners
+Refactor DataDefaults impl to be scoped to the default at construction (i.e. not require entitytype to be passed)
+Refactor defaults to applied last as in future we'll want defaults to possibly reference properties previously set with rules to ensure valid relational data
+
+
 Low level scratch (code)
 ------------------------
-Refactor DataDefaults impl to be scoped to the default at construction (i.e. not require entitytype to be passed)
-Create combined interface called BuilderData that extends DataDefaults and StateData
+
+Create combined interface called BuilderData that extends DataDefaults and StateData ... hmmm?
 
 High level scratch (arch/feature)
 ---------------------------------
-(Not enough time at the moment to add integration tests, in order to stay interested I've just added a few examples to drive the direction)
 * Implement some kind of integration test suite that allows writing to an in memory store (e.g. an array) or sqlite db
     * Should this also allow querying back against it from integration test
     * Ensure two withData calls lead to a single entity being written and overlapping properties take the latter data
