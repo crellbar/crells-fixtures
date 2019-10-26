@@ -3,17 +3,21 @@
 namespace Crellbar\CrellsFixtures\AdaptorExample;
 
 use Crellbar\CrellsFixtures\DataDefaults;
+use Crellbar\CrellsFixtures\StateData;
 
-class ArrayDrivenDataDefaults implements DataDefaults
+class ArrayDrivenDataDefaults implements DataDefaults, StateData
 {
     private $defaults;
+    private $states;
 
     /**
      * @param array $defaultsData In form ['entityType' => ['property' => 'value']]
+     * @param array $states In form ['state' => ['property' => 'value']]
      */
-    public function __construct(array $defaultsData)
+    public function __construct(array $defaultsData, array $states)
     {
         $this->defaults = $defaultsData;
+        $this->states = $states;
     }
 
     public function getDefaultsForType(string $type): array
@@ -29,5 +33,10 @@ class ArrayDrivenDataDefaults implements DataDefaults
         }
 
         return $defaultValuesForType;
+    }
+
+    public function stateData($state): array
+    {
+        return $this->states[$state];
     }
 }

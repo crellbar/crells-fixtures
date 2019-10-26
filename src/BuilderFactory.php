@@ -6,18 +6,21 @@ class BuilderFactory
 {
     private $dataStoreProvider;
     private $defaults;
+    private $stateData;
 
-    public function __construct(DataStoreProvider $dataStoreProvider, DataDefaults $defaults)
+    public function __construct(DataStoreProvider $dataStoreProvider, DataDefaults $defaults, StateData $stateData)
     {
         $this->dataStoreProvider = $dataStoreProvider;
         $this->defaults = $defaults;
+        $this->stateData = $stateData;
     }
 
     public function builder(string $entityType)
     {
         $builder = new Builder(
             $this->createModificationQueue($entityType),
-            $this->createObjectGraphNode($entityType)
+            $this->createObjectGraphNode($entityType),
+            $this->stateData
         );
 
         return $builder;

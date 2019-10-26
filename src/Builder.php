@@ -9,10 +9,11 @@ class Builder
     private $modificationQueue;
     private $objectGraphNode;
 
-    public function __construct(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode)
+    public function __construct(ModificationQueue $modificationQueue, ObjectGraphNode $objectGraphNode, StateData $stateData)
     {
         $this->modificationQueue = $modificationQueue;
         $this->objectGraphNode = $objectGraphNode;
+        $this->stateData = $stateData;
     }
 
     public function withData($data): void
@@ -30,5 +31,15 @@ class Builder
     {
         $this->modificationQueue->processAll($this->objectGraphNode);
         $this->objectGraphNode->write();
+    }
+
+    public function is(string $state): void
+    {
+        $this->modificationQueue->enqueue(new StateDataCommand($state, $this->stateData));
+    }
+
+    public function with(string $state): void
+    {
+        $this->is($state);
     }
 }
