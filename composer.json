@@ -1,24 +1,28 @@
 {
-    "name": "crellbar/crells-fixtures",
-    "description": "Agnostic fixture library",
-    "type": "library",
-    "license": "Private",
-    "authors": [
-        {
-            "name": "Paul Crellin",
-            "email": "crellbar+fixtures@crellbar.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "config": {
-        "bin-dir": "bin"
-    },
-    "autoload": {
-        "psr-4": { "Crellbar\\CrellsFixtures\\": ["src/"] }
-    },
-    "require": {},
-    "require-dev": {
-        "phpspec/phpspec": "^5.1",
-        "fzaninotto/faker": "^1.8"
+  "name": "crellbar/crells-fixtures",
+  "description": "Agnostic fixture library",
+  "type": "library",
+  "license": "Private",
+  "authors": [
+    {
+      "name": "Paul Crellin",
+      "email": "crells+fixtures@crellbar.com"
     }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "bin-dir": "bin"
+  },
+  "autoload": {
+    "psr-4": {
+      "Crellbar\\CrellsFixtures\\": ["src/"],
+      "Crellbar\\CrellsFixtures\\Tests\\Integration": ["integration/tests"],
+    }
+  },
+  "require": {},
+  "require-dev": {
+    "phpspec/phpspec": "^5.1",
+    "phpunit/phpunit": "^8.4",
+    "fzaninotto/faker": "^1.8"
+  }
 }

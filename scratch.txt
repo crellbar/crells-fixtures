@@ -1,6 +1,5 @@
 Refactors
 ---------
-Add feature test suite to replace/reduce examples.php (sort of module integration tests in that they'll be directly against code but as the 'stakeholder' is the user of the library it's legit to call them feature tests imo)
 Switch the AdaptorExample namespace to be TestAdaptors
 Refactor to better use namespaces within the code and put interfaces with their owners
 Refactor DataDefaults impl to be scoped to the default at construction (i.e. not require entitytype to be passed)
